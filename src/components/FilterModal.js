@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { FiCalendar, FiUsers, FiShoppingCart, FiRefreshCw, FiCheck } from 'react-icons/fi';
+import { FiCalendar, FiUsers, FiShoppingCart, FiRefreshCw } from 'react-icons/fi';
 import sampleData from './sampleData';
+import { FaRegWindowClose } from 'react-icons/fa';
 
 const FilterModal = ({ applyFilters, toggleFilterModal }) => {
   const [activeTab, setActiveTab] = useState('date');
@@ -72,10 +73,10 @@ const FilterModal = ({ applyFilters, toggleFilterModal }) => {
         <h2 className="text-xl font-semibold mb-4 flex items-center justify-between">
           <span>Add Filter</span>
           <button
-            onClick={handleResetDefaults}
+            onClick={toggleFilterModal}
             className="text-gray-600 hover:text-gray-900"
           >
-            <FiRefreshCw className="h-6 w-6" />
+            <FaRegWindowClose className="h-6 w-6" />
           </button>
         </h2>
 
@@ -84,27 +85,24 @@ const FilterModal = ({ applyFilters, toggleFilterModal }) => {
           <div className="w-1/4">
             <div className="flex flex-col">
               <button
-                className={`flex items-center text-gray-700 p-2 mb-2 ${
-                  activeTab === 'date' ? 'font-semibold' : ''
-                }`}
+                className={`flex items-center text-gray-700 p-2 mb-2 ${activeTab === 'date' ? 'font-semibold' : ''
+                  }`}
                 onClick={() => handleTabChange('date')}
               >
                 <FiCalendar className="mr-2 h-5 w-5" />
                 Filter by Date
               </button>
               <button
-                className={`flex items-center text-gray-700 p-2 mb-2 ${
-                  activeTab === 'people' ? 'font-semibold' : ''
-                }`}
+                className={`flex items-center text-gray-700 p-2 mb-2 ${activeTab === 'people' ? 'font-semibold' : ''
+                  }`}
                 onClick={() => handleTabChange('people')}
               >
                 <FiUsers className="mr-2 h-5 w-5" />
                 People
               </button>
               <button
-                className={`flex items-center text-gray-700 p-2 mb-2 ${
-                  activeTab === 'services' ? 'font-semibold' : ''
-                }`}
+                className={`flex items-center text-gray-700 p-2 mb-2 ${activeTab === 'services' ? 'font-semibold' : ''
+                  }`}
                 onClick={() => handleTabChange('services')}
               >
                 <FiShoppingCart className="mr-2 h-5 w-5" />
@@ -181,7 +179,7 @@ const FilterModal = ({ applyFilters, toggleFilterModal }) => {
                         type="checkbox"
                         checked={selectedPayers.includes(payer.payer)}
                         onChange={() => handlePayerCheckboxChange(payer)}
-                        className="mr-2"
+                        className="mr-2 appearance-none h-4 w-4 border border-gray-300 rounded checked:bg-gray-800 checked:border-transparent focus:outline-none focus:ring-0"
                       />
                       {payer.payer}
                     </label>
@@ -202,7 +200,7 @@ const FilterModal = ({ applyFilters, toggleFilterModal }) => {
                         type="checkbox"
                         checked={selectedServices.includes(service)}
                         onChange={() => handleServiceCheckboxChange(service)}
-                        className="mr-2"
+                        className="mr-2 appearance-none h-4 w-4 border border-gray-300 rounded checked:bg-gray-800 checked:border-transparent focus:outline-none focus:ring-0"
                       />
                       {service}
                     </label>
@@ -216,14 +214,15 @@ const FilterModal = ({ applyFilters, toggleFilterModal }) => {
         {/* Buttons */}
         <div className="flex justify-end space-x-2 mt-4">
           <button
-            onClick={toggleFilterModal}
-            className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
+            onClick={() => { handleResetDefaults(); handleApplyFilters() }}
+            className="flex bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded mr-2 focus:outline-none"
           >
-            Cancel
+            <FiRefreshCw className="h-6 w-6" /> Reset
           </button>
+
           <button
             onClick={handleApplyFilters}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+            className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded mr-2 focus:outline-none"
           >
             Apply
           </button>
