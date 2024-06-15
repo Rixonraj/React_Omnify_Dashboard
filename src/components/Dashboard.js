@@ -55,7 +55,7 @@ const Dashboard = () => {
       const now = new Date();
       switch (newFilters.dateFilter) {
         case 'Last 30 Days':
-          const last30Days = now.setDate(now.getDate() - 30);
+          const last30Days = now.setDate(now.getDate() - 30) / 1000; // Convert milliseconds to seconds
           filteredData = filteredData.filter(item => item.createdOn >= last30Days);
           break;
         case 'This Month':
@@ -111,7 +111,7 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto mt-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Dashboard</h2>
+        <h2 className="text-2xl font-semibold">Waitlist</h2>
 
       </div>
 

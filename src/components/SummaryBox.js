@@ -10,10 +10,16 @@ const SummaryBox = ({ data }) => {
     setAllWaitlistCount(data.length);
 
     // Calculate newly added count (for today)
-    const today = new Date().toLocaleDateString('en-US');
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+    const startOfDayUnix = Math.floor(startOfDay.getTime() / 1000);
+
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+    const endOfDayUnix = Math.floor(endOfDay.getTime() / 1000);
+
     const newlyAdded = data.filter(item => {
-      const itemDate = new Date(item.createdOn * 1000).toLocaleDateString('en-US');
-      return itemDate === today;
+      return item.createdOn >= startOfDayUnix && item.createdOn <= endOfDayUnix;
     });
     setNewlyAddedCount(newlyAdded.length);
 

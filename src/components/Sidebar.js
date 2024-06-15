@@ -48,12 +48,12 @@ const Sidebar = () => {
           <span>+5:30</span>
         </div>
       </div>
-      <nav className="flex-1 overflow-y-auto">
-        <ul className="mt-6">
+      <nav className="flex-1">
+        <ul className="mt-6 ml-2">
           <li className="mb-4">
             <button className="flex items-center text-gray-600 hover:text-gray-900 focus:outline-none" onClick={() => navigateTo('/')}>
               <FiBriefcase className="h-6 w-6" />
-              <span className={`${isOpen ? 'ml-2' : 'hidden'}`}>Dashboard</span>
+              <span className={`${isOpen ? 'ml-2' : 'hidden'}`}>Waitlist</span>
             </button>
           </li>
           <li className="mb-4">
@@ -74,12 +74,12 @@ const Sidebar = () => {
               <span className={`${isOpen ? 'ml-2' : 'hidden'}`}>Calendar</span>
             </button>
           </li>
-          <li className="mb-4">
+          {/* <li className="mb-4">
             <button className="flex items-center text-gray-600 hover:text-gray-900 focus:outline-none" onClick={() => navigateTo('/waitlist')}>
               <FiGrid className="h-6 w-6" />
               <span className={`${isOpen ? 'ml-2' : 'hidden'}`}>Waitlist</span>
             </button>
-          </li>
+          </li> */}
         </ul>
       </nav>
       {/* Profile section */}

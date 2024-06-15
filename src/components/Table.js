@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { FiClock, FiUser, FiMail, FiPhone, FiCalendar, FiCheckCircle, FiHelpCircle } from 'react-icons/fi';
+import {
+  FiClock,
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiCalendar,
+  FiCheckCircle,
+  FiHelpCircle,
+} from 'react-icons/fi';
 
 const Table = ({ data, displayColumns }) => {
   const [itemsPerPage, setItemsPerPage] = useState(5); // Number of items per page
@@ -14,16 +22,17 @@ const Table = ({ data, displayColumns }) => {
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const formatDate = (timestamp) => {
+    // console.log("timestamp", timestamp, "Normal:",(new Date(timestamp * 1000).toLocaleString()) )
     const date = new Date(timestamp * 1000); // Convert UNIX timestamp to milliseconds
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const day = days[date.getDay()];
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-    const month = date.toLocaleString('en-US', { month: 'short' });
-    const formattedDate = `${day}. ${date.getDate()} ${month} ${date.getFullYear()} ${formattedHours}:${formattedMinutes} ${ampm}`;
+    const options = {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    };
+    options.timeZone = "UTC";
+    options.timeZoneName = "short";
+    const formattedDate = date.toLocaleString('en-US', options);
     return formattedDate;
   };
 
@@ -87,6 +96,27 @@ const Table = ({ data, displayColumns }) => {
     }
   };
 
+  // Function to calculate the range of page numbers to display
+  const getPageRange = () => {
+    const maxPagesToShow = 1; // Maximum pages to show between previous and next buttons
+    const pagesToShow = [];
+    let start = Math.max(1, currentPage - maxPagesToShow);
+    let end = Math.min(totalPages, currentPage + maxPagesToShow);
+
+    // Adjust start and end if the current page is near the beginning or end
+    if (currentPage <= maxPagesToShow) {
+      end = Math.min(totalPages, maxPagesToShow * 2 + 1);
+    } else if (currentPage >= totalPages - maxPagesToShow) {
+      start = Math.max(1, totalPages - maxPagesToShow * 2);
+    }
+
+    for (let i = start; i <= end; i++) {
+      pagesToShow.push(i);
+    }
+
+    return pagesToShow;
+  };
+
   return (
     <div className="overflow-hidden border border-gray-200 rounded-lg shadow-md">
       <div className="overflow-x-auto">
@@ -138,9 +168,7 @@ const Table = ({ data, displayColumns }) => {
             min="1"
           />
           {/* Total count */}
-
           out of {data.length}
-
         </div>
 
         {/* Previous and next buttons */}
@@ -154,13 +182,13 @@ const Table = ({ data, displayColumns }) => {
           </button>
           {/* Page numbers */}
           <div className="flex space-x-2">
-            {[...Array(Math.min(3, totalPages))].map((_, index) => (
+            {getPageRange().map((pageNumber) => (
               <button
-                key={index}
-                onClick={() => paginate(index + 1)}
-                className={`border px-4 py-2 rounded ${currentPage === index + 1 ? 'bg-gray-800 text-white' : 'text-gray-800'}`}
+                key={pageNumber}
+                onClick={() => paginate(pageNumber)}
+                className={`border px-4 py-2 rounded ${currentPage === pageNumber ? 'bg-gray-800 text-white' : 'text-gray-800'}`}
               >
-                {index + 1}
+                {pageNumber}
               </button>
             ))}
           </div>
